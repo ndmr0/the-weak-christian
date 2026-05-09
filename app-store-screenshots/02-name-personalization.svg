@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1242" height="2688" viewBox="0 0 1242 2688">
+  <rect width="1242" height="2688" fill="#ffffff"/>
+  
+  <text x="122" y="1040" fill="#050505" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="148" font-weight="900">
+  <tspan x="122">What&apos;s</tspan>
+  <tspan x="122" dy="132">your</tspan>
+  <tspan x="122" dy="132">name?</tspan>
+</text>
+<rect x="122" y="1458" width="760" height="96" rx="18" fill="#dedcf4"/>
+<text x="158" y="1524" fill="#8d899b" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="43" font-style="italic" letter-spacing="5">Your Name</text>
+<text x="324" y="1848" fill="#050505" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="38" font-style="italic">Continue Without a Name</text>
+<circle cx="621" cy="2056" r="72" fill="#e9e6ff" stroke="#d8d4ff" stroke-width="10"/>
+<text x="589" y="2080" fill="#5147e8" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="68">→</text>
+</svg>
