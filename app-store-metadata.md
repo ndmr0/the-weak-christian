@@ -1,9 +1,9 @@
-# The Weak Christian App Store Metadata
+# Daily Notes of Grace App Store Metadata
 
 ## App Information
 
 Name:
-The Weak Christian
+Daily Notes of Grace
 
 Subtitle:
 Christ-centered encouragement
@@ -34,19 +34,27 @@ Promotional Text:
 Simple, Christ-centered encouragement from Scripture for moments when your heart needs to be reminded of Jesus.
 
 Description:
-The Weak Christian is a quiet place for Christ-centered encouragement.
+Daily Notes of Grace is a quiet place for Christ-centered encouragement.
 
-Open the app and scroll through short encouragement notes shaped by Bible verses from the King James Version. Each note is written to point your heart back to Jesus, with the Scripture reference shown beneath it.
+Start with a brief daily check-in, then receive short encouragement notes shaped by Bible verses from the King James Version. Each note is written to point your heart back to Jesus, with Scripture, saving, reflection, prayer, and sharing actions.
 
-You can add your name for a more personal reading experience, save notes you want to revisit, and share encouragements with someone else using their name or a general greeting.
+The Mood Tracker helps you notice patterns across mood, social energy, sleep, and thankfulness without creating an account. You can save notes you want to revisit, keep private Journal reflections, keep Prayer requests, return to Recently Seen notes, and share encouragements with someone else using their name or a general greeting.
 
-The app is intentionally simple: no account, no ads, no analytics, and no tracking. Your name, saved notes, and reading history stay on your device.
+The app is intentionally simple: no account, no ads, no analytics, and no tracking. Your name, mood check-ins, saved notes, journal entries, prayer requests, and reading history stay on your device.
 
 Features:
-- Infinite, screen-by-screen encouragement feed
+- Daily emotional and spiritual check-in
+- Mood Tracker with local history and thankfulness entries
+- Encouragement reader after check-in
+- Static top and bottom app navigation
+- Simple app menu
 - Christ-centered notes paired with KJV Bible verses
 - Optional name personalization
 - Saved notes
+- Recently Seen notes
+- Journal reflections
+- Prayer requests
+- Scripture and theme search
 - Share preview with optional recipient name
 - Local reading history to keep the feed feeling fresh
 - No account, ads, analytics, or tracking
@@ -59,7 +67,7 @@ Copyright:
 
 ## App Review Notes
 
-The app does not require login or an account. All encouragement notes are bundled in the app. The user's name, saved notes, and seen-note history are stored locally on the device only. The app does not use ads, analytics, tracking, or a backend service.
+The app does not require login or an account. All encouragement notes are bundled in the app. The user's name, saved notes, personal notes, journal reflections, prayer requests, and seen-note history are stored locally on the device only. The app does not use ads, analytics, tracking, or a backend service.
 
 The share feature uses the native iOS share sheet after showing a preview of the message.
 
@@ -69,7 +77,7 @@ Recommended answer:
 No, we do not collect data from this app.
 
 Reason:
-The app stores optional name personalization, saved notes, and seen-note history locally on the device. This data is not transmitted to the developer or a third party by the app.
+The app stores optional name personalization, mood check-ins, saved notes, journal entries, prayer requests, and seen-note history locally on the device. This data is not transmitted to the developer or a third party by the app.
 
 ## Age Rating Guidance
 

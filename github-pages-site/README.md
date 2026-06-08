@@ -1,4 +1,4 @@
-# The Weak Christian Public Pages
+# Daily Notes of Grace Public Pages
 
 This folder contains the public pages needed for App Store submission.
 

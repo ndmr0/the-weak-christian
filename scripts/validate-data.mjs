@@ -20,6 +20,18 @@ data.forEach((item, index) => {
     errors.push(`Record ${item.id} is missing verse data`);
   }
 
+  if (!item.book || !Number.isInteger(item.chapter) || !Number.isInteger(item.verse)) {
+    errors.push(`Record ${item.id} is missing parsed reference metadata`);
+  }
+
+  if (item.testament !== "Old Testament" && item.testament !== "New Testament") {
+    errors.push(`Record ${item.id} has invalid testament`);
+  }
+
+  if (!Array.isArray(item.themes) || item.themes.length < 1) {
+    errors.push(`Record ${item.id} is missing themes`);
+  }
+
   if (references.has(item.verse_reference)) {
     errors.push(`Duplicate verse reference: ${item.verse_reference}`);
   }

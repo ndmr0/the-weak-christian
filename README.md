@@ -1,22 +1,22 @@
-# The Weak Christian
+# Daily Notes of Grace
 
-Minimal Expo React Native app for an infinite-scrolling encouragement feed.
+Expo React Native app for a calm, Christ-centered devotional experience built around the bundled KJV encouragement database.
 
 ## Current Flow
 
 1. Splash screen with the wordmark.
 2. Name screen with optional user name.
-3. Infinite encouragement feed using the bundled KJV database.
-4. Local profile screen to update the display name.
-5. Saved encouragements screen.
-6. Share preview screen with app branding and an optional recipient name before opening the iOS share sheet.
+3. Home dashboard with daily rhythm actions and library shortcuts.
+4. Paginated full-screen encouragement reader using the bundled KJV database.
+5. Burger menu with Saved Notes, Recently Seen, Reflections, Prayers, Explore, Profile, About, Privacy, Care Note, and Reset Seen Notes.
+6. Saved encouragements, journal reflections, prayer requests, explore/search, and share preview flows.
 7. Profile area with privacy summary, care note, reset seen notes, and clear saved notes.
 
 If a user enters a name, each note renders with that name. If not, the app uses `Christian`.
 
 ## Fresh Content Logic
 
-The app stores seen encouragement IDs locally with AsyncStorage. On each app open, it builds the feed from notes the user has not seen yet. When all 1,000 notes have been seen, the app resets the local seen list and starts a new shuffled cycle.
+The app stores seen encouragement IDs locally with AsyncStorage. On each app open, it builds the reader from layout-safe notes the user has not seen yet. The source database contains 1,000 records; the full-screen Today reader uses the 908 notes that pass the fixed-page fit audit. When all eligible Today notes have been seen, the app resets the local seen list and starts a new shuffled cycle.
 
 The user's name and seen-note history stay on the device.
 
@@ -46,6 +46,38 @@ npm install
 npx expo start
 ```
 
+Readiness checks:
+
+```bash
+npm run check:local
+npm run package:public-pages
+npm run create:screenshots
+npm test
+npm run check:flow
+npm run check:today
+npm run check:review
+npm run check:store
+npm run check:submit
+npm run check:ios
+npm run check:android
+```
+
+Full release gate, including public App Store URLs and platform exports:
+
+```bash
+npm run check:release
+```
+
+`npm run check:release` is expected to fail until the current `github-pages-site/` files are deployed and `npm run check:public` passes.
+
+Package the current public pages for deployment:
+
+```bash
+npm run package:public-pages
+```
+
+This creates `dist/github-pages-site/` from the current `github-pages-site/` folder.
+
 To regenerate the bundled app data after editing the JSONL:
 
 ```bash
@@ -59,4 +91,18 @@ Before submitting to Apple, update the `ios.bundleIdentifier` in `app.json` to t
 
 This project currently uses Expo SDK 54 for the most reliable Expo Go preview on iPhone.
 
+`app.json` includes an app-level iOS privacy manifest with no tracking, no collected data types, and required-reason API declarations matching the installed React Native/Expo native packages.
+
+Use a current external EAS CLI for cloud builds/submission rather than pinning `eas-cli` in this app's local dev dependencies.
+
 Host `privacy-policy.html` and `support.html` at public HTTPS URLs before filling out App Store Connect.
+
+Use `app-store-review-notes.md` as the starting point for App Store Connect review notes.
+
+Use `testflight-qa-checklist.md` for the real-device TestFlight pass before submission.
+
+Use `app-store-privacy-answers.md` and `app-store-age-rating-answers.md` when completing App Store Connect privacy and age rating forms.
+
+Use `release-runbook.md` for the final sequence from local checks to public pages, EAS build, TestFlight QA, and App Store Connect submission.
+
+Use `review-handoff.md` as the single current-state summary for Nelson's app review.

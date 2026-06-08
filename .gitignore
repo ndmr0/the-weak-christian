@@ -1,0 +1,24 @@
+# macOS
+.DS_Store
+
+# Dependencies and local tool caches
+node_modules/
+.local/
+.playwright-cli/
+
+# Expo / React Native local state
+.expo/
+
+# Build outputs
+dist/
+web-build/
+output/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local environment files
+.env
+.env.*
