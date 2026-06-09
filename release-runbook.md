@@ -10,7 +10,7 @@ Run:
 npm run check:local
 ```
 
-This packages public pages, regenerates screenshot drafts, validates data, checks app flows, checks Today-page fit, checks review assets, checks store readiness, and checks submission docs/config.
+This packages public pages, regenerates screenshot drafts, validates data, checks app flows, checks encouragement-page fit, checks review assets, checks store readiness, and checks submission docs/config.
 
 ## 2. Public Pages
 
@@ -82,7 +82,7 @@ npx eas-cli@latest build --profile production --platform ios
 npx eas-cli@latest build --profile production --platform android
 ```
 
-Install the iOS build through TestFlight.
+Install the iOS build through TestFlight before sending the build to Apple Review.
 
 ## 6. TestFlight QA
 
