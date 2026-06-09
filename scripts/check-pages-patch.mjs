@@ -41,7 +41,11 @@ const supportHtml = fs.readFileSync(path.join(tempDir, "support.html"), "utf8");
 assert(fs.existsSync(path.join(tempDir, ".nojekyll")), "Patched pages repo must include .nojekyll");
 assert(!privacyHtml.includes("<h2>External Links</h2>"), "Patched privacy policy must remove External Links");
 assert(
-  supportHtml.includes("You can update your name from Profile in the app menu"),
+  privacyHtml.includes("optional daily reminder"),
+  "Patched privacy policy must describe optional local reminders"
+);
+assert(
+  supportHtml.includes("turn the optional daily reminder on or off from Profile"),
   "Patched support page must match current app navigation language"
 );
 assert(!/ko-fi|donat|support this work/i.test(supportHtml), "Patched support page must remove donation language");

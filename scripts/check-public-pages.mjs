@@ -62,11 +62,14 @@ assert(!privacyHtml.includes("<h2>External Links</h2>"), "Hosted privacy policy 
 assert(!/https?:\/\//i.test(privacyHtml), "Hosted privacy policy should not include external URLs");
 
 assert(supportHtml.includes("Daily Notes of Grace Support"), "Hosted support page must have the expected title");
-assert(supportHtml.includes("You can update your name from Profile in the app menu"), "Hosted support page must match current app navigation language");
+assert(
+  supportHtml.includes("turn the optional daily reminder on or off from Profile"),
+  "Hosted support page must match current app navigation language"
+);
 assert(!/ko-fi|donat|support this work/i.test(supportHtml), "Hosted support page must not include donation language or Ko-fi links");
 assert(!/https?:\/\//i.test(supportHtml), "Hosted support page should not include external URLs");
 
-assert(marketingHtml.includes("The<br>Weak<br>Christian"), "Hosted marketing page must show the app wordmark");
+assert(marketingHtml.includes("Daily<br>Notes<br>of Grace"), "Hosted marketing page must show the app wordmark");
 assert(marketingHtml.includes("Privacy Policy"), "Hosted marketing page must link to privacy policy");
 assert(marketingHtml.includes("Support"), "Hosted marketing page must link to support");
 

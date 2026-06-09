@@ -1,6 +1,6 @@
 # Daily Notes of Grace Review Handoff
 
-Generated: 2026-05-30
+Generated: 2026-06-09
 
 ## Current App State
 
@@ -11,16 +11,19 @@ Generated: 2026-05-30
 - Android package: com.theweakchristian.app
 - EAS project ID: 746c00f2-87af-4756-86fb-50282cd0dce3
 - Source encouragement records: 1000
-- Layout-safe Today reader notes: 908
+- Layout-safe encouragement notes: 908 with the Nelson fixture name; selected dynamically by user name and fixed-page fit rules
 - Data model: bundled KJV encouragement records, local-only AsyncStorage user data
 - Privacy posture: no account, no ads, no analytics, no tracking, no backend
+- Optional reminder: local scheduled notification only, enabled by the user from Profile
 
 ## Main User Experience
 
 - Splash screen with Daily Notes of Grace wordmark
 - Optional name personalization
-- Daily Check in flow that leads into Today's Encouragement
+- Daily Check in flow for mood, social mood, sleep, and optional gratitude
+- Context-matched encouragement note after check-in
 - Mood Tracker with local mood, social, sleep, and thankfulness history
+- Returning users see Check in until today's check-in is complete, then Mood Tracker becomes the default screen for that day
 - Static bottom navigation for Check in, Mood Tracker, My Notes, and Profile
 - Menu with My Notes, Recently Seen, Mood Tracker, Journal, Prayer, Browse Scripture, Profile, About, Privacy, and Care Note
 - Saved notes with personal note text and favorites
@@ -44,7 +47,7 @@ This verifies:
 - 1,000-record data validation
 - App flow and persistence safeguards
 - Accessibility labels on button controls
-- Today-page fixed-layout fit for 908 notes across 3 device profiles
+- Encouragement-page fixed-layout fit across 3 device profiles
 - Review screenshot assets
 - Store readiness configuration
 - Submission docs and config
@@ -84,12 +87,9 @@ npm run check:public
 
 Current public status: failing because the hosted GitHub Pages site is stale.
 
-Known hosted-page failures:
+Known public-page requirement:
 
-- Hosted privacy policy still includes the removed External Links section.
-- Hosted support page does not match current app navigation language.
-- Hosted support page still includes donation/Ko-fi language.
-- Hosted support page still includes an external URL.
+- Hosted pages must be refreshed from the current `github-pages-site/` package before submission.
 
 ## App Store Review Assets
 

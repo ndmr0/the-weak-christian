@@ -40,7 +40,7 @@ Start with a brief daily check-in, then receive short encouragement notes shaped
 
 The Mood Tracker helps you notice patterns across mood, social energy, sleep, and thankfulness without creating an account. You can save notes you want to revisit, keep private Journal reflections, keep Prayer requests, return to Recently Seen notes, and share encouragements with someone else using their name or a general greeting.
 
-The app is intentionally simple: no account, no ads, no analytics, and no tracking. Your name, mood check-ins, saved notes, journal entries, prayer requests, and reading history stay on your device.
+The app is intentionally simple: no account, no ads, no analytics, and no tracking. Your name, mood check-ins, saved notes, journal entries, prayer requests, reminder setting, and reading history stay on your device.
 
 Features:
 - Daily emotional and spiritual check-in
@@ -50,6 +50,7 @@ Features:
 - Simple app menu
 - Christ-centered notes paired with KJV Bible verses
 - Optional name personalization
+- Optional local daily reminder
 - Saved notes
 - Recently Seen notes
 - Journal reflections
@@ -67,7 +68,9 @@ Copyright:
 
 ## App Review Notes
 
-The app does not require login or an account. All encouragement notes are bundled in the app. The user's name, saved notes, personal notes, journal reflections, prayer requests, and seen-note history are stored locally on the device only. The app does not use ads, analytics, tracking, or a backend service.
+The app does not require login or an account. All encouragement notes are bundled in the app. The user's name, mood check-ins, saved notes, personal notes, journal reflections, prayer requests, reminder setting, and seen-note history are stored locally on the device only. The app does not use ads, analytics, tracking, or a backend service.
+
+The optional daily reminder uses local scheduled notifications only after the user turns it on.
 
 The share feature uses the native iOS share sheet after showing a preview of the message.
 
@@ -77,7 +80,7 @@ Recommended answer:
 No, we do not collect data from this app.
 
 Reason:
-The app stores optional name personalization, mood check-ins, saved notes, journal entries, prayer requests, and seen-note history locally on the device. This data is not transmitted to the developer or a third party by the app.
+The app stores optional name personalization, mood check-ins, saved notes, journal entries, prayer requests, reminder setting, and seen-note history locally on the device. This data is not transmitted to the developer or a third party by the app.
 
 ## Age Rating Guidance
 

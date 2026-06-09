@@ -6,21 +6,23 @@ Expo React Native app for a calm, Christ-centered devotional experience built ar
 
 1. Splash screen with the wordmark.
 2. Name screen with optional user name.
-3. Home dashboard with daily rhythm actions and library shortcuts.
-4. Paginated full-screen encouragement reader using the bundled KJV database.
-5. Burger menu with Saved Notes, Recently Seen, Reflections, Prayers, Explore, Profile, About, Privacy, Care Note, and Reset Seen Notes.
-6. Saved encouragements, journal reflections, prayer requests, explore/search, and share preview flows.
-7. Profile area with privacy summary, care note, reset seen notes, and clear saved notes.
+3. Daily Check in flow for mood, social mood, sleep, and optional gratitude.
+4. Context-matched encouragement note after check-in.
+5. Mood Tracker becomes the default screen after the day’s check-in is complete.
+6. Static bottom navigation: Check in, Mood Tracker, My Notes, and Profile.
+7. Burger menu with My Notes, Recently Seen, Mood Tracker, Journal, Prayer, Browse Scripture, Profile, About, Privacy, and Care Note.
+8. Saved encouragements, journal reflections, prayer requests, browse/search, and share preview flows.
+9. Profile area with privacy summary, care note, optional daily reminder controls, reset seen notes, and clear saved notes.
 
 If a user enters a name, each note renders with that name. If not, the app uses `Christian`.
 
 ## Fresh Content Logic
 
-The app stores seen encouragement IDs locally with AsyncStorage. On each app open, it builds the reader from layout-safe notes the user has not seen yet. The source database contains 1,000 records; the full-screen Today reader uses the 908 notes that pass the fixed-page fit audit. When all eligible Today notes have been seen, the app resets the local seen list and starts a new shuffled cycle.
+The app stores seen encouragement IDs locally with AsyncStorage. After a check-in, it builds the encouragement pool from layout-safe notes the user has not seen yet, then scores notes by mood, social mood, sleep state, pastoral intent, tone, doctrinal emphasis, and length safety. The source database contains 1,000 records; the reader uses the layout-safe subset that passes the fixed-page fit audit for the current user name. When all eligible notes have been seen, the app resets the local seen list and starts a new shuffled cycle.
 
-The user's name and seen-note history stay on the device.
+The user's name, check-ins, reminder setting, and seen-note history stay on the device.
 
-Saved encouragements also stay on the device for this first version.
+Saved encouragements, journal reflections, and prayer requests also stay on the device for this first version.
 
 ## Data
 
@@ -35,7 +37,15 @@ Each record uses:
   "fallback_name": "Christian",
   "verse_text": "...",
   "verse_reference": "...",
-  "translation": "KJV"
+  "translation": "KJV",
+  "moods": ["Anxious"],
+  "socialMoods": ["Withdrawn"],
+  "sleepStates": ["Poor"],
+  "pastoralIntent": "comfort",
+  "doctrinalEmphasis": ["Christ's sufficiency"],
+  "tone": "gentle",
+  "intensity": "high-need",
+  "lengthTier": "screen-safe"
 }
 ```
 
