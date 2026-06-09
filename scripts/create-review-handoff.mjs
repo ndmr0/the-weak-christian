@@ -143,6 +143,8 @@ npm run check:release
 
 This must pass before App Store submission. It checks local readiness, hosted public pages, native exports, high-severity dependency audit, and the latest EAS iOS App Store build status.
 
+If the EAS iOS build status fails because the provisioning profile does not support Push Notifications, enable Push Notifications on the Apple Developer App ID \`com.theweakchristian.app\`, regenerate the App Store provisioning profile, refresh EAS iOS credentials, and rebuild.
+
 ## Remaining External Steps
 
 1. Deploy \`dist/github-pages-site/\` to GitHub Pages.

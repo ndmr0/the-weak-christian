@@ -83,6 +83,14 @@ If a production iOS build fails with a message that the provisioning profile doe
 npx eas-cli@latest credentials:configure-build --platform ios --profile production
 ```
 
+If EAS does not repair it automatically, fix the capability in Apple Developer first:
+
+1. Open Apple Developer > Certificates, Identifiers & Profiles.
+2. Open the App ID for `com.theweakchristian.app`.
+3. Enable **Push Notifications** and save.
+4. Regenerate or recreate the App Store provisioning profile for that App ID.
+5. Return to EAS credentials and regenerate/refresh the iOS build credentials.
+
 Recommended commands:
 
 ```bash
