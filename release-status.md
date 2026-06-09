@@ -7,11 +7,22 @@ Last updated: 2026-06-09
 - Local release preflight: passing with `npm run check:local`.
 - Hosted public pages: passing with `npm run check:public`.
 - Final release gate: blocked by the latest EAS iOS App Store build status.
-- Current local commit: `4de3b469 Add current release status handoff`.
 - Current app-source backup branch: `github/daily-notes-of-grace-release-candidate-2026-06-09`.
 - App-source branch URL: `https://github.com/ndmr0/the-weak-christian/tree/daily-notes-of-grace-release-candidate-2026-06-09`.
 - Local Git remote: `github` -> `https://github.com/ndmr0/the-weak-christian.git`.
 - Public GitHub Pages commit: `71a9f7fc Update Daily Notes of Grace public pages`.
+
+To verify the current local release-candidate commit:
+
+```bash
+git log -1 --oneline
+```
+
+To verify the remote release-candidate branch:
+
+```bash
+git ls-remote --heads github daily-notes-of-grace-release-candidate-2026-06-09
+```
 
 ## Current EAS iOS Blocker
 
