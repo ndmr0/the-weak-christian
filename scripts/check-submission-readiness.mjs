@@ -60,6 +60,7 @@ const releaseRunbook = readText("release-runbook.md");
 const privacyAnswers = readText("app-store-privacy-answers.md");
 const ageRatingAnswers = readText("app-store-age-rating-answers.md");
 const reviewHandoff = readText("review-handoff.md");
+const releaseStatus = readText("release-status.md");
 
 assert(app?.version === "1.0.0", "Initial App Store version should be 1.0.0");
 assert(isReverseDns(app?.ios?.bundleIdentifier ?? ""), "iOS bundle identifier must be a valid reverse-DNS identifier");
@@ -116,11 +117,13 @@ assert(pkg.scripts?.["check:submit"] === "node scripts/check-submission-readines
 assert(pkg.scripts?.["check:local"] === "node scripts/check-local-readiness.mjs", "package.json must expose check:local");
 assert(pkg.scripts?.["check:release"] === "node scripts/check-release-readiness.mjs", "package.json must expose check:release");
 assert(pkg.scripts?.["check:public"] === "node scripts/check-public-pages.mjs", "package.json must expose check:public");
+assert(pkg.scripts?.["check:eas-ios"] === "node scripts/check-eas-ios-production-build.mjs", "package.json must expose check:eas-ios");
 assert(pkg.scripts?.["package:public-pages"] === "node scripts/package-public-pages.mjs", "package.json must expose package:public-pages");
 assert(pkg.scripts?.["create:handoff"] === "node scripts/create-review-handoff.mjs", "package.json must expose create:handoff");
 assert(fs.existsSync(path.join(root, "testflight-qa-checklist.md")), "TestFlight QA checklist is missing");
 assert(fs.existsSync(path.join(root, "release-runbook.md")), "Release runbook is missing");
 assert(fs.existsSync(path.join(root, "review-handoff.md")), "Review handoff is missing");
+assert(fs.existsSync(path.join(root, "release-status.md")), "Release status file is missing");
 assert(fs.existsSync(path.join(root, "app-store-privacy-answers.md")), "App Store privacy answers are missing");
 assert(fs.existsSync(path.join(root, "app-store-age-rating-answers.md")), "App Store age rating answers are missing");
 assert(qaChecklist.includes("Encouragement After Check-In"), "TestFlight QA checklist must cover encouragement after check-in");
@@ -131,18 +134,23 @@ assert(reviewNotes.includes("layout-safe subset"), "Review notes must explain th
 assert(checklist.includes("layout-safe notes"), "App Store checklist must mention the layout-safe encouragement pool");
 assert(checklist.includes("npm run check:release"), "App Store checklist must mention check:release");
 assert(checklist.includes("npm run check:public"), "App Store checklist must mention check:public");
-assert(checklist.includes("Deploy the current `github-pages-site/` files"), "App Store checklist must flag the public-page deployment requirement");
+assert(checklist.includes("Re-run `npm run check:public`"), "App Store checklist must require public-page verification before submission");
 assert(readme.includes("npm run check:release"), "README must document check:release");
 assert(readme.includes("npm run check:local"), "README must document check:local");
 assert(releaseRunbook.includes("npm run check:release"), "Release runbook must require check:release");
+assert(releaseRunbook.includes("latest EAS iOS App Store build status check"), "Release runbook must include the EAS iOS build-status gate");
 assert(releaseRunbook.includes("testflight-qa-checklist.md"), "Release runbook must reference TestFlight QA");
 assert(releaseRunbook.includes("Data Not Collected"), "Release runbook must include App Privacy guidance");
 assert(releaseRunbook.includes("app-store-privacy-answers.md"), "Release runbook must reference App Store privacy answers");
 assert(releaseRunbook.includes("app-store-age-rating-answers.md"), "Release runbook must reference App Store age rating answers");
 assert(reviewHandoff.includes("Latest local status: passing."), "Review handoff must summarize local status");
-assert(reviewHandoff.includes("Current public status: failing because the hosted GitHub Pages site is stale."), "Review handoff must summarize public-page blocker");
+assert(reviewHandoff.includes("Current public status: passing."), "Review handoff must summarize public-page status");
 assert(reviewHandoff.includes("npm run check:release"), "Review handoff must include the final release gate");
 assert(reviewHandoff.includes("testflight-qa-checklist.md"), "Review handoff must reference TestFlight QA");
+assert(releaseStatus.includes("Local release preflight: passing"), "Release status must summarize local readiness");
+assert(releaseStatus.includes("Hosted public pages: passing"), "Release status must summarize hosted public-page readiness");
+assert(releaseStatus.includes("ccbddfce-ed46-4f42-8049-75fbedcc0902"), "Release status must identify the current failed iOS build");
+assert(releaseStatus.includes("Apple provisioning issue"), "Release status must identify the Apple provisioning blocker");
 assert(privacyAnswers.includes("No, we do not collect data from this app."), "Privacy answers must specify no data collected");
 assert(privacyAnswers.includes("No tracking"), "Privacy answers must specify no tracking");
 assert(privacyAnswers.includes("Required-reason APIs"), "Privacy answers must mention required-reason APIs");
@@ -157,6 +165,7 @@ hasNoTodoMarkers(releaseRunbook, "Release runbook");
 hasNoTodoMarkers(privacyAnswers, "App Store privacy answers");
 hasNoTodoMarkers(ageRatingAnswers, "App Store age rating answers");
 hasNoTodoMarkers(reviewHandoff, "Review handoff");
+hasNoTodoMarkers(releaseStatus, "Release status");
 
 if (errors.length) {
   console.error(errors.join("\n"));

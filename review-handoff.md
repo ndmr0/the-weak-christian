@@ -71,7 +71,7 @@ privacy-policy.html
 support.html
 ```
 
-Deploy them to the root of `ndmr0/the-weak-christian` on GitHub Pages, then push `main`.
+These files are deployed to the root of `ndmr0/the-weak-christian` on GitHub Pages.
 
 The prepared patch can be verified before deployment with:
 
@@ -85,11 +85,11 @@ After deploying, run:
 npm run check:public
 ```
 
-Current public status: failing because the hosted GitHub Pages site is stale.
+Current public status: passing.
 
-Known public-page requirement:
+Public-page requirement before submission:
 
-- Hosted pages must be refreshed from the current `github-pages-site/` package before submission.
+- Re-run `npm run check:public` before App Store submission to confirm the hosted pages still match the current privacy/support wording.
 
 ## App Store Review Assets
 
@@ -128,14 +128,13 @@ If the EAS iOS build status fails because the provisioning profile does not supp
 
 ## Remaining External Steps
 
-1. Deploy `dist/github-pages-site/` to GitHub Pages.
-2. Confirm `npm run check:public` passes.
-3. Confirm `com.theweakchristian.app` is available in Apple Developer.
-4. Confirm the iOS App Identifier and App Store provisioning profile include Push Notifications for the optional local reminder.
-5. Run iOS and Android platform export checks.
-6. Build production with EAS.
-7. Install iOS build through TestFlight.
-8. Complete `testflight-qa-checklist.md`.
-9. Fill App Store Connect using the metadata, privacy, and age-rating files.
-10. Run `npm run check:release`.
-11. Submit to Apple after the final gate passes.
+1. Confirm `npm run check:public` still passes.
+2. Confirm `com.theweakchristian.app` is available in Apple Developer.
+3. Confirm the iOS App Identifier and App Store provisioning profile include Push Notifications for the optional local reminder.
+4. Run iOS and Android platform export checks.
+5. Build production with EAS.
+6. Install iOS build through TestFlight.
+7. Complete `testflight-qa-checklist.md`.
+8. Fill App Store Connect using the metadata, privacy, and age-rating files.
+9. Run `npm run check:release`.
+10. Submit to Apple after the final gate passes.

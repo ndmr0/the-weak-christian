@@ -30,7 +30,7 @@
 
 ## Still Needed Before Submission
 
-- Deploy the current `github-pages-site/` files so `npm run check:public` passes before App Store submission.
+- Re-run `npm run check:public` before App Store submission to confirm the hosted public pages still match the current app wording.
 - Add the hosted privacy, support, and marketing URLs in App Store Connect.
 - Confirm `com.theweakchristian.app` is available in the Apple Developer account, or update `app.json` before the first production build.
 - Regenerate the iOS App Store provisioning profile after enabling Push Notifications for `com.theweakchristian.app`, because the optional local reminder uses the iOS notification entitlement.
