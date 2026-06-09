@@ -25,7 +25,9 @@
     "check:android": "expo export --platform android --dev --output-dir /tmp/twc-check-android --clear",
     "convert:data": "node scripts/convert-data.mjs",
     "validate:data": "node scripts/validate-data.mjs",
-    "enrich:data": "node scripts/enrich-data.mjs ."
+    "map:data": "node scripts/apply-note-metadata.mjs .",
+    "enrich:data": "node scripts/enrich-data.mjs .",
+    "audit:mapping": "node scripts/audit-note-mapping.mjs"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.1.1",

@@ -2,6 +2,62 @@ import data from "../src/data/encouragements.json" with { type: "json" };
 
 const errors = [];
 const references = new Set();
+const validDoctrinalEmphasis = new Set([
+  "Christ's sufficiency",
+  "grace",
+  "forgiveness",
+  "finished work",
+  "perseverance",
+  "providence",
+  "God's presence",
+  "union with Christ",
+  "Scripture wisdom",
+  "resurrection hope"
+]);
+const validIntensities = new Set(["high-need", "low-energy", "steady"]);
+const validLengthTiers = new Set(["long", "screen-safe", "short"]);
+const validMoods = new Set([
+  "Discouraged",
+  "Tired",
+  "Anxious",
+  "Lonely",
+  "Confused",
+  "Afraid",
+  "Overwhelmed",
+  "Numb",
+  "Calm",
+  "Hopeful",
+  "Joyful",
+  "Thankful"
+]);
+const validPastoralIntents = new Set([
+  "assurance",
+  "comfort",
+  "rest",
+  "wisdom",
+  "courage",
+  "renewal",
+  "repentance",
+  "gratitude",
+  "perseverance",
+  "prayer"
+]);
+const validSleepStates = new Set(["Poor", "Okay", "Good"]);
+const validSocialMoods = new Set(["Isolated", "Withdrawn", "Sociable"]);
+const validTones = new Set(["gentle", "steady", "reflective", "joyful", "corrective"]);
+
+function validateArrayField(item, field, validValues, { max = 4, min = 1 } = {}) {
+  if (!Array.isArray(item[field]) || item[field].length < min || item[field].length > max) {
+    errors.push(`Record ${item.id} has invalid ${field}`);
+    return;
+  }
+
+  item[field].forEach((value) => {
+    if (!validValues.has(value)) {
+      errors.push(`Record ${item.id} has unsupported ${field} value: ${value}`);
+    }
+  });
+}
 
 data.forEach((item, index) => {
   if (item.id !== index + 1) {
@@ -30,6 +86,27 @@ data.forEach((item, index) => {
 
   if (!Array.isArray(item.themes) || item.themes.length < 1) {
     errors.push(`Record ${item.id} is missing themes`);
+  }
+
+  validateArrayField(item, "moods", validMoods);
+  validateArrayField(item, "socialMoods", validSocialMoods, { max: 2 });
+  validateArrayField(item, "sleepStates", validSleepStates, { max: 2 });
+  validateArrayField(item, "doctrinalEmphasis", validDoctrinalEmphasis, { max: 4 });
+
+  if (!validPastoralIntents.has(item.pastoralIntent)) {
+    errors.push(`Record ${item.id} has invalid pastoralIntent`);
+  }
+
+  if (!validTones.has(item.tone)) {
+    errors.push(`Record ${item.id} has invalid tone`);
+  }
+
+  if (!validIntensities.has(item.intensity)) {
+    errors.push(`Record ${item.id} has invalid intensity`);
+  }
+
+  if (!validLengthTiers.has(item.lengthTier)) {
+    errors.push(`Record ${item.id} has invalid lengthTier`);
   }
 
   if (references.has(item.verse_reference)) {

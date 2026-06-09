@@ -1157,28 +1157,165 @@ function getTodayFeedItems(name) {
   return filteredItems.length > 0 ? filteredItems : encouragements;
 }
 
-function getMoodFeedItems(name, mood) {
-  const baseItems = getTodayFeedItems(name);
+function getLabel(value) {
+  if (!value) {
+    return "";
+  }
 
-  if (!mood) {
+  return typeof value === "string" ? value : value.label ?? "";
+}
+
+function normalizeCheckInContext(checkIn) {
+  if (!checkIn) {
+    return {
+      mood: null,
+      moodLabel: "",
+      sleepLabel: "",
+      socialMoodLabel: ""
+    };
+  }
+
+  const moodValue = checkIn.mood ?? checkIn;
+  const moodLabel = getLabel(moodValue);
+  const mood = typeof moodValue === "string"
+    ? MOOD_OPTIONS.find((option) => option.label === moodValue) ?? null
+    : moodValue?.label
+      ? moodValue
+      : null;
+
+  return {
+    mood,
+    moodLabel,
+    sleepLabel: getLabel(checkIn.sleep ?? checkIn.sleepState),
+    socialMoodLabel: getLabel(checkIn.socialMood)
+  };
+}
+
+function getKeywordScore(item, name, keywords = []) {
+  if (!keywords.length) {
+    return 0;
+  }
+
+  const searchText = getSearchText(item, name);
+  return keywords.reduce(
+    (score, keyword) => score + (searchText.includes(keyword.toLowerCase()) ? 2 : 0),
+    0
+  );
+}
+
+function scoreCheckInItem(item, name, checkIn) {
+  const { mood, moodLabel, sleepLabel, socialMoodLabel } = normalizeCheckInContext(checkIn);
+  const themes = Array.isArray(item.themes) ? item.themes : [];
+  let score = item.lengthTier === "short" ? 7 : item.lengthTier === "screen-safe" ? 9 : 0;
+
+  if (moodLabel) {
+    if (item.moods?.includes(moodLabel)) {
+      score += 42;
+    } else {
+      const moodThemes = new Set(mood?.themes ?? []);
+      const themeMatches = themes.filter((theme) => moodThemes.has(theme)).length;
+      score += themeMatches * 5;
+      score += Math.min(8, getKeywordScore(item, name, mood?.keywords ?? []));
+    }
+  }
+
+  if (socialMoodLabel && item.socialMoods?.includes(socialMoodLabel)) {
+    score += 14;
+  }
+
+  if (sleepLabel && item.sleepStates?.includes(sleepLabel)) {
+    score += 14;
+  }
+
+  if (sleepLabel === "Poor") {
+    if (item.intensity === "low-energy") {
+      score += 8;
+    }
+    if (item.tone === "gentle") {
+      score += 6;
+    }
+    if (item.intensity === "high-need") {
+      score -= 3;
+    }
+  }
+
+  if (["Anxious", "Afraid", "Overwhelmed", "Numb", "Discouraged"].includes(moodLabel)) {
+    if (item.tone === "gentle") {
+      score += 7;
+    }
+    if (["comfort", "assurance", "rest", "renewal"].includes(item.pastoralIntent)) {
+      score += 7;
+    }
+  }
+
+  if (["Confused"].includes(moodLabel) && item.pastoralIntent === "wisdom") {
+    score += 8;
+  }
+
+  if (["Joyful", "Thankful"].includes(moodLabel)) {
+    if (item.tone === "joyful") {
+      score += 8;
+    }
+    if (["gratitude", "prayer"].includes(item.pastoralIntent)) {
+      score += 7;
+    }
+  }
+
+  if (moodLabel === "Hopeful" && item.pastoralIntent === "perseverance") {
+    score += 7;
+  }
+
+  if (moodLabel === "Calm" && ["gentle", "steady", "reflective"].includes(item.tone)) {
+    score += 5;
+  }
+
+  if (item.doctrinalEmphasis?.includes("Christ's sufficiency")) {
+    score += 3;
+  }
+
+  if (item.doctrinalEmphasis?.includes("grace")) {
+    score += 2;
+  }
+
+  return score;
+}
+
+function getCheckInFeedItems(name, checkIn) {
+  const baseItems = getTodayFeedItems(name);
+  const { moodLabel, sleepLabel, socialMoodLabel } = normalizeCheckInContext(checkIn);
+
+  if (!moodLabel && !sleepLabel && !socialMoodLabel) {
     return baseItems;
   }
 
-  const moodThemes = new Set(mood.themes ?? []);
-  const moodKeywords = (mood.keywords ?? []).map((keyword) => keyword.toLowerCase());
-  const matchedItems = baseItems.filter((item) => {
-    const themes = Array.isArray(item.themes) ? item.themes : [];
-    const hasThemeMatch = themes.some((theme) => moodThemes.has(theme));
+  const scoredItems = baseItems
+    .map((item) => ({
+      item,
+      score: scoreCheckInItem(item, name, checkIn)
+    }))
+    .sort((first, second) => second.score - first.score || first.item.id - second.item.id);
+  const bestScore = scoredItems[0]?.score ?? 0;
+  const strongMatches = scoredItems
+    .filter((entry) => entry.score >= Math.max(35, bestScore - 18))
+    .map((entry) => entry.item);
 
-    if (hasThemeMatch) {
-      return true;
-    }
+  if (strongMatches.length >= 20) {
+    return strongMatches.slice(0, 160);
+  }
 
-    const searchText = getSearchText(item, name);
-    return moodKeywords.some((keyword) => searchText.includes(keyword));
-  });
+  const directMoodMatches = moodLabel
+    ? baseItems.filter((item) => item.moods?.includes(moodLabel))
+    : [];
 
-  return matchedItems.length > 0 ? matchedItems : baseItems;
+  if (directMoodMatches.length > 0) {
+    return directMoodMatches;
+  }
+
+  return scoredItems.slice(0, 160).map((entry) => entry.item);
+}
+
+function getMoodFeedItems(name, mood) {
+  return getCheckInFeedItems(name, { mood });
 }
 
 function getUnseenQueue(seenIds, items = encouragements) {
@@ -1589,6 +1726,7 @@ function AppBottomNav({
 }) {
   return (
     <View
+      aria-hidden={accessibilityHidden}
       accessibilityElementsHidden={accessibilityHidden}
       importantForAccessibility={accessibilityHidden ? "no-hide-descendants" : "auto"}
       pointerEvents={accessibilityHidden ? "none" : "auto"}
@@ -1648,6 +1786,7 @@ function AboutValueCard({ body, Icon = Ionicons, iconName, title }) {
 function AppTopNav({ onOpenSettings, padded = true }) {
   return (
     <View
+      aria-hidden
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
       pointerEvents="none"
@@ -2666,7 +2805,11 @@ function HomeScreen({
         socialMood: selectedSocialMood?.label ?? ""
       };
 
-      onCompleteCheckIn(entry, mood);
+      onCompleteCheckIn(entry, {
+        mood,
+        sleep: selectedSleep,
+        socialMood: selectedSocialMood
+      });
     },
     [gratitude, onCompleteCheckIn, selectedMood, selectedSleep, selectedSocialMood]
   );
@@ -6068,6 +6211,7 @@ function AppContent() {
   const [seenHistory, setSeenHistory] = useState({});
   const [seenIds, setSeenIds] = useState(new Set());
   const [screen, setScreen] = useState("home");
+  const [selectedCheckIn, setSelectedCheckIn] = useState(null);
   const [selectedMood, setSelectedMood] = useState(null);
   const [selectedEncouragementItem, setSelectedEncouragementItem] = useState(null);
   const [encouragementReturnTab, setEncouragementReturnTab] = useState("home");
@@ -6409,6 +6553,7 @@ function AppContent() {
   const navigateFromMenu = useCallback((nextScreen) => {
     if (nextScreen === "today") {
       const nextItem = getUnseenQueue(seenIds, getTodayFeedItems(name))[0] ?? getTodayFeedItems(name)[0] ?? null;
+      setSelectedCheckIn(null);
       setSelectedMood(null);
       setSelectedEncouragementItem(nextItem);
       setEncouragementReturnTab("checkIn");
@@ -6623,9 +6768,9 @@ function AppContent() {
     });
   }, []);
 
-  const selectEncouragementForMood = useCallback(
-    (mood, excludeId = null) => {
-      const sourceItems = getMoodFeedItems(name, mood);
+  const selectEncouragementForCheckIn = useCallback(
+    (checkIn = null, excludeId = null) => {
+      const sourceItems = getCheckInFeedItems(name, checkIn);
       const availableItems = sourceItems.filter((item) => item.id !== excludeId);
       const queue = getUnseenQueue(seenIds, availableItems.length > 0 ? availableItems : sourceItems);
       return queue[0] ?? sourceItems[0] ?? null;
@@ -6633,13 +6778,22 @@ function AppContent() {
     [name, seenIds]
   );
 
+  const selectEncouragementForMood = useCallback(
+    (mood, excludeId = null) => selectEncouragementForCheckIn(mood ? { mood } : null, excludeId),
+    [selectEncouragementForCheckIn]
+  );
+
   const openEncouragement = useCallback(
-    (item, { mood = null, tab = "home" } = {}) => {
+    (item, { checkIn = null, mood = null, tab = "home" } = {}) => {
       if (!item) {
         return;
       }
 
-      setSelectedMood(mood);
+      const normalizedCheckIn = checkIn ?? (mood ? { mood } : null);
+      const normalizedMood = mood ?? normalizeCheckInContext(normalizedCheckIn).mood;
+
+      setSelectedCheckIn(normalizedCheckIn);
+      setSelectedMood(normalizedMood);
       setSelectedEncouragementItem(item);
       setEncouragementReturnTab(tab);
       rememberSeenItem(item);
@@ -6671,7 +6825,7 @@ function AppContent() {
   }, [openEncouragement, selectEncouragementForMood]);
 
   const saveDailyCheckIn = useCallback(
-    async (entry, mood) => {
+    async (entry, checkIn) => {
       const nextEntry = {
         ...entry,
         id: entry.id || `${Date.now()}`
@@ -6688,11 +6842,16 @@ function AppContent() {
         return nextEntries;
       });
 
-      const nextMood = mood ?? MOOD_OPTIONS.find((option) => option.label === nextEntry.mood) ?? null;
-      const nextItem = selectEncouragementForMood(nextMood);
-      openEncouragement(nextItem, { mood: nextMood, tab: "checkIn" });
+      const nextMood = normalizeCheckInContext(checkIn).mood ?? MOOD_OPTIONS.find((option) => option.label === nextEntry.mood) ?? null;
+      const nextCheckIn = {
+        mood: nextMood,
+        sleep: checkIn?.sleep ?? nextEntry.sleep,
+        socialMood: checkIn?.socialMood ?? nextEntry.socialMood
+      };
+      const nextItem = selectEncouragementForCheckIn(nextCheckIn);
+      openEncouragement(nextItem, { checkIn: nextCheckIn, mood: nextMood, tab: "checkIn" });
     },
-    [openEncouragement, selectEncouragementForMood]
+    [openEncouragement, selectEncouragementForCheckIn]
   );
 
   const openSavedEncouragement = useCallback((item) => {
@@ -6700,9 +6859,17 @@ function AppContent() {
   }, [openEncouragement]);
 
   const showNextEncouragement = useCallback(() => {
-    const nextItem = selectEncouragementForMood(selectedMood, selectedEncouragementItem?.id ?? null);
-    openEncouragement(nextItem, { mood: selectedMood, tab: encouragementReturnTab });
-  }, [encouragementReturnTab, openEncouragement, selectEncouragementForMood, selectedEncouragementItem, selectedMood]);
+    const nextCheckIn = selectedCheckIn ?? (selectedMood ? { mood: selectedMood } : null);
+    const nextItem = selectEncouragementForCheckIn(nextCheckIn, selectedEncouragementItem?.id ?? null);
+    openEncouragement(nextItem, { checkIn: nextCheckIn, mood: selectedMood, tab: encouragementReturnTab });
+  }, [
+    encouragementReturnTab,
+    openEncouragement,
+    selectEncouragementForCheckIn,
+    selectedCheckIn,
+    selectedEncouragementItem,
+    selectedMood
+  ]);
 
   const openSaved = useCallback(() => {
     setScreen("saved");
