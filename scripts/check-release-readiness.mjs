@@ -31,5 +31,6 @@ run("node_modules/.bin/expo", ["export", "--platform", "android", "--dev", "--ou
 
 const [npm, npmArgs] = npmCommand();
 run(npm, [...npmArgs, "audit", "--omit=dev", "--audit-level=high"]);
+run(process.execPath, ["scripts/check-eas-ios-production-build.mjs"]);
 
 console.log("Release readiness checks passed.");

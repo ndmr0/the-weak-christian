@@ -124,4 +124,6 @@ Run:
 npm run check:release
 ```
 
-Submit only after this command passes.
+This runs the local checks, hosted public-page checks, platform exports, high-severity dependency audit, and latest EAS iOS App Store build status check.
+
+Submit only after this command passes. If the command reports that the latest iOS App Store build is errored, fix the EAS/Apple build issue, rebuild, complete TestFlight QA, and run this gate again.

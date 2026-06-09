@@ -141,7 +141,7 @@ Run:
 npm run check:release
 \`\`\`
 
-This must pass before App Store submission. It currently stops at \`npm run check:public\` until the public pages are deployed.
+This must pass before App Store submission. It checks local readiness, hosted public pages, native exports, high-severity dependency audit, and the latest EAS iOS App Store build status.
 
 ## Remaining External Steps
 
