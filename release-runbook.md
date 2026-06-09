@@ -75,6 +75,14 @@ Both must export successfully.
 
 Use a current external EAS CLI. Do not add `eas-cli` as a local dependency.
 
+Before rebuilding iOS, confirm the Apple Developer App Identifier and App Store provisioning profile for `com.theweakchristian.app` include Push Notifications. The optional local reminder is implemented with `expo-notifications`, which causes the iOS build to require the `aps-environment` entitlement.
+
+If a production iOS build fails with a message that the provisioning profile does not support Push Notifications or does not include `aps-environment`, log in to Apple through EAS credentials and regenerate the App Store provisioning profile:
+
+```bash
+npx eas-cli@latest credentials:configure-build --platform ios --profile production
+```
+
 Recommended commands:
 
 ```bash

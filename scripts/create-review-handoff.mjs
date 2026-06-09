@@ -148,13 +148,14 @@ This must pass before App Store submission. It currently stops at \`npm run chec
 1. Deploy \`dist/github-pages-site/\` to GitHub Pages.
 2. Confirm \`npm run check:public\` passes.
 3. Confirm \`com.theweakchristian.app\` is available in Apple Developer.
-4. Run iOS and Android platform export checks.
-5. Build production with EAS.
-6. Install iOS build through TestFlight.
-7. Complete \`testflight-qa-checklist.md\`.
-8. Fill App Store Connect using the metadata, privacy, and age-rating files.
-9. Run \`npm run check:release\`.
-10. Submit to Apple after the final gate passes.
+4. Confirm the iOS App Identifier and App Store provisioning profile include Push Notifications for the optional local reminder.
+5. Run iOS and Android platform export checks.
+6. Build production with EAS.
+7. Install iOS build through TestFlight.
+8. Complete \`testflight-qa-checklist.md\`.
+9. Fill App Store Connect using the metadata, privacy, and age-rating files.
+10. Run \`npm run check:release\`.
+11. Submit to Apple after the final gate passes.
 `;
 
 fs.writeFileSync(path.join(root, "review-handoff.md"), handoff);

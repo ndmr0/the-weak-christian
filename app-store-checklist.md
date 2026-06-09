@@ -33,6 +33,7 @@
 - Deploy the current `github-pages-site/` files so `npm run check:public` passes before App Store submission.
 - Add the hosted privacy, support, and marketing URLs in App Store Connect.
 - Confirm `com.theweakchristian.app` is available in the Apple Developer account, or update `app.json` before the first production build.
+- Regenerate the iOS App Store provisioning profile after enabling Push Notifications for `com.theweakchristian.app`, because the optional local reminder uses the iOS notification entitlement.
 - Review the generated App Store screenshot drafts in `app-store-screenshots/`; replace with real simulator/device screenshots if you want exact runtime captures after the current UI changes.
 - Run an EAS production build, install through TestFlight, and complete `testflight-qa-checklist.md`.
 - Complete Apple privacy nutrition labels using `app-store-privacy-answers.md`.
