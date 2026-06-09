@@ -7,8 +7,10 @@ Last updated: 2026-06-09
 - Local release preflight: passing with `npm run check:local`.
 - Hosted public pages: passing with `npm run check:public`.
 - Final release gate: blocked by the latest EAS iOS App Store build status.
-- Current local commit: `7b8cf2b7 Clarify Apple notification provisioning repair`.
-- Current app-source backup branch: `daily-notes-of-grace-release-candidate-2026-06-09`.
+- Current local commit: `4de3b469 Add current release status handoff`.
+- Current app-source backup branch: `github/daily-notes-of-grace-release-candidate-2026-06-09`.
+- App-source branch URL: `https://github.com/ndmr0/the-weak-christian/tree/daily-notes-of-grace-release-candidate-2026-06-09`.
+- Local Git remote: `github` -> `https://github.com/ndmr0/the-weak-christian.git`.
 - Public GitHub Pages commit: `71a9f7fc Update Daily Notes of Grace public pages`.
 
 ## Current EAS iOS Blocker
@@ -58,3 +60,13 @@ npx eas-cli@latest build --profile production --platform ios
    - `app-store-screenshots/`
 4. Run `npm run check:release`.
 5. Submit to Apple Review only after `npm run check:release` passes.
+
+## Source-Control Notes
+
+The repository's GitHub `main` branch is currently used for the public GitHub Pages site. Do not push the app source to `github/main`.
+
+To back up app-source changes, push to the release-candidate branch:
+
+```bash
+git push github HEAD:refs/heads/daily-notes-of-grace-release-candidate-2026-06-09
+```
